@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_guide_app/model/exercise_model.dart';
 import 'package:collection/collection.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ExerciseDetailPage extends StatelessWidget {
   final Function(ExerciseModel) toggleFavourite;
@@ -13,6 +14,7 @@ class ExerciseDetailPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as ExerciseModel;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        mini: true,
         backgroundColor: Colors.white,
         onPressed: () {
           toggleFavourite(exerciseModel);
@@ -22,14 +24,16 @@ class ExerciseDetailPage extends StatelessWidget {
           color: Colors.red,
         ),
       ),
-      appBar: AppBar(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
         child: ListView(
           children: [
             Image.network(
               exerciseModel.imageUrl,
-              height: 200,
+              height: Adaptive.h(30),
               fit: BoxFit.cover,
               width: double.infinity,
             ),
@@ -57,19 +61,22 @@ class ExerciseDetailPage extends StatelessWidget {
               'Targeted Muscle',
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
-            Row(
-              children: exerciseModel.targetMuscles
-                  .map((e) => Card(
-                        color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            e,
-                            style: const TextStyle(color: Colors.white),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: exerciseModel.targetMuscles
+                    .map((e) => Card(
+                          color: Colors.red,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              e,
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ),
-                      ))
-                  .toList(),
+                        ))
+                    .toList(),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -78,19 +85,22 @@ class ExerciseDetailPage extends StatelessWidget {
               'Equipment',
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
-            Row(
-              children: exerciseModel.equipment
-                  .map((e) => Card(
-                        color: const Color(0xFF322751),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            e,
-                            style: const TextStyle(color: Colors.white),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: exerciseModel.equipment
+                    .map((e) => Card(
+                          color: const Color(0xFF322751),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              e,
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ),
-                      ))
-                  .toList(),
+                        ))
+                    .toList(),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -144,7 +154,10 @@ class ExerciseDetailPage extends StatelessWidget {
                   ],
                 ),
               ],
-            )
+            ),
+            SizedBox(
+              height: Adaptive.h(8),
+            ),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 enum Gender { male, female }
 
@@ -40,14 +41,18 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Calculate your BMI'),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: const Text(
+          'Calculate your BMI',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Container(
-              height: 100,
+              height: Adaptive.h(15),
               color: Colors.grey[100],
               child: Column(
                 children: [

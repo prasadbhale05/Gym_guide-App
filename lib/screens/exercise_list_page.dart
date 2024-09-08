@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gym_guide_app/app_state.dart';
 import 'package:gym_guide_app/model/exercise_model.dart';
 import 'package:gym_guide_app/widgets/exercise_card_widget.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ExerciseListPage extends StatelessWidget {
   static String routeName = "/exerciseList";
@@ -17,36 +18,44 @@ class ExerciseListPage extends StatelessWidget {
     final List<ExerciseModel> listOfExercise = args["listOfExercise"];
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           title,
           style: const TextStyle(
-              fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+              color: Colors.white),
         ),
       ),
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-          child: listOfExercise.isEmpty
-              ? Center(
-                  child: Text(
-                    'No exercise with difficulty level: ${AppState.difficultyLevel} and Equipment type: ${AppState.selectedEquipment.name}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              : ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      height: 20.0,
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return ExerciseCardWidget(
-                        exerciseModel: listOfExercise[index]);
-                  },
-                  itemCount: listOfExercise.length,
-                )),
+        padding: EdgeInsets.all(Adaptive.h(2)),
+        child: listOfExercise.isEmpty
+            ? Center(
+                child: Text(
+                  'No exercise with difficulty level: ${AppState.difficultyLevel} and Equipment type: ${AppState.selectedEquipment.name}',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      ExerciseCardWidget(
+                        exerciseModel: listOfExercise[index],
+                      ),
+                      SizedBox(
+                        height: Adaptive.h(1),
+                      ),
+                    ],
+                  );
+                },
+                itemCount: listOfExercise.length,
+              ),
+      ),
     );
   }
 }
